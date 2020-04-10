@@ -1,0 +1,2 @@
+,trans_id,company_id,cont_id,transaction_id,line_id,transaction_date,prod_price_net,prod_id,prod_family,cont_residency_zip,cont_residency_city,store_name
+0,158644532715148,SampleID,cont_id,transaction_id,line_id,transaction_date,prod_price_net,prod_id,prod_family,cont_residency_zip,cont_residency_city,store_name

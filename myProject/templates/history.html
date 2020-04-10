@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <style>
+ @@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Expanded');
+
+
+
+html,body {
+  font-family: 'Encode Sans Expanded', sans-serif;
+  height: 100%;
+  margin: 15px;
+}
+
+.container div {
+    width:100%;
+}
+.container .header {
+    background-color:#d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.container .content {
+    display: none;
+    padding : 5px;
+}
+#content:after {
+  display:none;
+  visibility: hidden;
+    content: "";
+    position: absolute;
+    right: 0;
+    height: 50px;
+    width: 30%;
+    min-width: 300px;
+    background: linear-gradient(135deg, transparent 50px, white 50px);
+}
+
+
+h2 {
+  text-align: left;
+  font-weight: 100;
+  font-size: 25pt;
+}
+.topclass {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+.lol {
+  overflow: hidden;
+  background-color: azure;
+
+
+}
+
+h5 {
+  font-weight: 200;
+  font-size: 20pt;
+}
+
+
+
+
+
+    </style>
+  <meta charset="UTF-8">
+  <title>jQuery Query Builder</title>
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+  <!-- THIS LINE -->
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder/dist/css/query-builder.default.min.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src='https://cdn.jsdelivr.net/jquery.query-builder/2.3.3/js/query-builder.standalone.min.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/jquery.query-builder/2.3.3/js/query-builder.standalone.min.js'></script>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.query-builder/2.3.3/css/query-builder.default.min.css'>
+
+  <script  "text/javascript"  src="static/js/script.js"></script>
+
+  <script>
+    var final_result = {{final_result|tojson}}
+    final_result = JSON.parse(final_result)
+
+    var linesCount = {{linesCount|tojson}}
+    linesCount = JSON.parse(linesCount)
+
+    console.log(final_result)
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Filter History</h2>
+      <a class="nav-link btn btn-default btn-sm" href="/" style="margin-left:60px;"> <span> Create New Filter</span></a>
+
+      <a class="nav-link btn btn-default btn-sm" href="/pastFilter" style="margin-left:60px;"> <span>View Filter History</span></a>
+    </div>
+
+
+    <form  enctype="multipart/form-data"  action="/" method="post" >
+
+    <div class = "well container">
+    <br>
+    <div id="results">
+    </div>
+
+    <br>
+    <br>
+    </div>
+
+    </form>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

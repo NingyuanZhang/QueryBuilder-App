@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <script src="/static/css/echarts.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Commercial Segmentation</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{filename}}</h4>
+      <h4 style="margin-left:60px; ">The segmentation is based on the following features:
+        <span style="color: #855b2e; font-weight: 600;">Transaction Amount</span> and
+        <span style="color: #855b2e; font-weight: 600;">Number of Transactions</span>, and the optimal
+        number of segments is <span style="color: #855b2e; font-weight: 600;">{{k}}</span>
+      </h4>
+    </div>
+
+
+    <div class="parent" style="font-family: Lato;">
+      <div id="plot" style="width: 1000px;height:400px;padding:0px 0px 10px 200px;"></div>
+      <script type="text/javascript">
+          var myChart = echarts.init(document.getElementById('plot'));
+          // data for Echarts
+          var option = {
+              title: {
+                  text: 'Clustering Result'
+              },
+              tooltip: {},
+              legend: {
+                  data:['Population']
+              },
+              xAxis: {
+                  type: 'category',
+                  nameLocation: 'center',
+                  nameGap: 22,
+                  name: 'Cluster Index',
+                  data: [{% for l in labels %}'{{ l }}', {% endfor %}],
+                  splitArea: {
+                        show: false
+                    },
+                  nameTextStyle: {
+                        fontWeight: 'bolder'
+                    }
+              },
+              yAxis: {
+                type: 'value',
+                name: 'Population',
+                nameLocation: 'center',
+                nameGap: 42,
+                splitArea: {
+                      show: false
+                  },
+                nameTextStyle: {
+                      fontWeight: 'bolder'
+                  }
+              },
+              series: [{
+                  name: 'Population',
+                  type: 'bar',
+                  data: {{values}}
+              }]
+          };
+          myChart.setOption(option);
+      </script>
+
+      <div class="" style="margin-left:200px; font-family: Lato; ">
+        <h4>Centroid is the average of data points belonging to that segment. </h4>
+        <h4>The information about segment centroids is as follows. </h4>
+      </div>
+
+      <div id="table">
+        {% for table in T %}
+            <h5 style="text-align:center; margin-left: 250px;">{{ table|safe }}</h5>
+        {% endfor %}
+    </div>
+
+    <form name="Form" method="POST" >
+      <button type="submit" onclick="back();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+       background: #b3b3b3;color: white; margin-left: 300px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+       Switch Segmentation Option
+     </button>
+       <button type="submit" onclick="save1();" class="btn btn-default" style="border: none; margin-top:10px;
+        background: #b3b3b3;color: white; margin-left: 100px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+       Save Centroids Information
+      </button>
+      <button type="submit" onclick="save2();" class="btn btn-default" style="border: none; margin-top:10px;
+      background: #b3b3b3;color: white; margin-left: 30px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+      Save Segment Result
+      </button>
+  </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+<script>
+    function back(){
+        document.Form.action='/seg';
+        document.Form.submit();
+    }
+    function save1(){
+
+      document.Form.action='/downloadCom1';
+      document.Form.submit();
+    }
+    function save2(){
+
+      document.Form.action='/downloadCom2';
+      document.Form.submit();
+    }
+
+
+
+</script>
+
+
+
+{% endblock %}

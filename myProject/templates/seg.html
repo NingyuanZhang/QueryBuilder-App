@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Segmentation</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{filename}}</h4>
+      <h4 style="margin-left:60px; ">Choose your segmentation below.</h4>
+    </div>
+
+
+    <div class="parent" style="font-family: Lato;">
+
+
+
+    <form name="SegForm" method="POST" >
+
+
+      <button type="submit" onclick="auto_seg();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+       background: #b3b3b3;color: white; margin-left: 300px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+       Automatic Segmentation
+     </button>
+
+       <button type="submit" onclick="com_seg();" class="btn btn-default" style="border: none; margin-top:10px;
+        background: #b3b3b3;color: white; margin-left: 100px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+       Commercial Segmentation
+      </button>
+
+      <button type="submit" onclick="cus_seg();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+       background: #b3b3b3;color: white; margin-left: 100px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+      Custom Segmentation
+     </button>
+
+
+  </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+<script>
+    function auto_seg(){
+        document.SegForm.action='/seg/auto_seg';
+        document.SegForm.submit();
+    }
+    function com_seg() {
+        document.SegForm.action = '/seg/com_seg';
+        document.SegForm.submit();
+    }
+    function cus_seg() {
+        document.SegForm.action = '/seg/cus_seg';
+        document.SegForm.submit();
+    }
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Matching</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{name}}</h4>
+      <h4 style="margin-left:60px; ">Make sure that you match the 'cont_id' column.</h4>
+    </div>
+
+
+    <div class="parent" style="font-family: Lato;">
+
+
+    {% if length>0 %}
+    <form name="matchForm" method="POST" >
+
+
+        {% for i in range(length) %}
+
+          {% if client_label[i]!="" %}
+          <div class="left" >
+            {% if i==0 %}
+            <h3  style="margin-top: 10px;margin-bottom: 15px; margin-left: 100px;">Columns in Your Table</h3>
+            {% endif %}
+          <label for={{i}} style="font-size: 15px;margin-left: 100px;">{{client_label[i]}} </label>
+          </div>
+          <div class="right" >
+            {% if i==0 %}
+            <h3  style="margin-top: 10px;margin-bottom: 15px;">Matching Columns in Master Table</h3>
+            {% endif %}
+          <select name = {{client_label[i]}} id = {{i}} style="font-size: 15px; margin: 0px;">
+            {% for i in mapping_res[client_label[i]] %}
+              <option value="{{i}}"  >{{i}}</option>
+            {% endfor %}
+          </select>
+          {% endif %}
+          </div>
+          <br>
+        {% endfor %}
+      <button type="submit" onclick="next();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+       background: #b3b3b3;color: white; margin-left: 400px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">Next</button>
+
+       <button type="submit" onclick="download();" class="btn btn-default" style="border: none; margin-top:10px;
+        background: #b3b3b3;color: white; margin-left: 100px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+
+       Download Matched File
+      </button>
+
+  </form>
+  </div>
+  {%  endif %}
+
+{% endblock %}
+
+{% block footer %}
+<script>
+    function next(){
+        document.matchForm.action='/merge';
+        document.matchForm.submit();
+    }
+    function download() {
+        document.matchForm.action = '/downloadCSV';
+        document.matchForm.submit();
+    }
+
+
+</script>
+
+
+
+{% endblock %}

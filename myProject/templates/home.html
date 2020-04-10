@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;margin-top:10px;">Explore Filtering</h2>
+      <h4 style="margin-left:60px; ">Please upload your dataset and match your dataset to our master table.</h4>
+      <h4 style="margin-left:60px; ">Make sure that it is a csv file and use '|' as separator.</h4>
+    </div>
+    <div class="uploafForm">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+
+          <label for="file" style="font-size:15px; font-family: Lato;">Upload Data: </label>
+          <input type="file" name="file" id ="file"  value="Upload data: ">
+          <!--
+          <button type="submit" onclick="save();" class="btn btn-default" style="border: none; margin-top:10px;
+          background: #b3b3b3;color: white; margin-left: 100px;margin-top: 50px" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+          Save
+          </button>
+          -->
+
+          <button type="submit" onclick="submit();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+           background: #b3b3b3;color: white; margin-left: 100px;margin-top: 50px" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+           Upload
+          </button>
+
+
+  </div>
+
+
+{% endblock %}
+{% block footer %}
+<script>
+    function save(){
+        document.Form.action='/save';
+        document.Form.submit();
+    }
+    function submit(){
+      document.Form.action='/upload';
+      document.Form.submit();
+    }
+</script>
+
+
+
+{% endblock %}

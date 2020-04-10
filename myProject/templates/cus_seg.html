@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Custom Segmentation</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{filename}}</h4>
+      <br>
+    </div>
+    <div  style="font-family: Lato;">
+    <form name="Form" method="POST" >
+      <h4 style="margin-left:100px; ">1) Please pick features</h4>
+      <br>
+      {% for i in range(length) %}
+
+
+
+      <input  style="margin-left:100px;" type="checkbox" name="attributes" id={{i}} value="{{cols[i]}}" unchecked>
+      <label for={{i}} style="font-size: 11px;">{{i+1}}. {{cols[i]}}</label>
+      <br>
+      {% endfor %}
+      <br>
+      <h4 style="margin-left:100px;">2) Please select the K value (the number of segments)</h4>
+      <br>
+      <select name = "number" style="font-size: 15px; margin-left:100px; ">
+        <option value="0"  >Auto-Select</option>
+        <option value="2"  >2</option>
+        <option value="3"  >3</option>
+        <option value="4"  >4</option>
+        <option value="5"  >5</option>
+        <option value="6"  >6</option>
+        <option value="7"  >7</option>
+        <option value="8"  >8</option>
+        <option value="9"  >9</option>
+        <option value="10"  >10</option>
+      </select>
+
+<br>
+
+      <button type="submit" onclick="segment();" class="btn btn-default" style="border: none; margin-top:10px;
+      background: #b3b3b3;color: white; margin-left: 100px;margin-top: 50px" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+      Perform Segmentation
+      </button>
+
+      <button type="submit" onclick="back();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+       background: #b3b3b3;color: white; margin-left: 100px;margin-top: 50px" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+       Switch Segmentation Option
+     </button>
+
+
+
+
+
+
+  </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+<script>
+    function back(){
+        document.Form.action='/seg';
+        document.Form.submit();
+    }
+    function segment(){
+      document.Form.action='/seg/cus_seg_res';
+      document.Form.submit();
+    }
+</script>
+
+
+
+{% endblock %}

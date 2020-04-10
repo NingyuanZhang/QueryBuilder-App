@@ -1,0 +1,2 @@
+,trans_id,company_id,cont_residency_zip,line_id,cont_id,prod_family,prod_subfamily,prod_style,other01,prod_price_tax,prod_category,prod_color,other02,cont_initial_contact_date,delivery_date,date_of_record
+0,158440296310287,SampleID,code_postal,intitule,code_article,famille_intitule,sous_famille_intitule,style_intitule,modele_intitule,tarif_intitule_article,tarif_categorie,tarif_couleur,montant_ht,Date_Reglement1,date_livraison,date_commande_client

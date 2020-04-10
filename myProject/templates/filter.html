@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <style>
+h2 {
+text-align: left;
+font-weight: 100;
+font-size: 25pt;
+}
+/* bootstrap.min.css */
+
+@media (min-width:992px) {
+.col-md-12 {
+  width: unset;
+
+}
+}
+
+.form-inline {
+  display: table-cell;
+}
+
+.container2 {
+padding-left: 24px;;
+  width:90%;
+}
+
+
+.header {
+overflow: hidden;
+background-color: #f1f1f1;
+padding: 20px 10px;
+}
+.topclass {
+overflow: hidden;
+background-color: #f1f1f1;
+padding: 20px 10px;
+}
+.lol {
+overflow: hidden;
+background-color: azure;
+padding: 40px 29px;
+
+}
+
+.header a {
+float: left;
+color: black;
+text-align: center;
+padding: 12px;
+text-decoration: none;
+font-size: 18px;
+line-height: 25px;
+border-radius: 4px;
+}
+
+h5 {
+font-weight: 200;
+font-size: 20pt;
+}
+
+.input-file {
+position:relative;
+overflow:hidden;
+padding:0;
+display:block;
+max-width:100%;
+cursor:pointer;
+}
+
+
+.next {
+background-color: aliceblue;
+color: black;
+
+}
+
+.input-file .btn {
+white-space:nowrap;
+display:inline-block;
+margin-right:1em;
+vertical-align:top;
+}
+
+.input-file .material-icons {
+float:left;
+font-size:16px;
+line-height:inherit;
+margin-right:4px;
+}
+
+.input-file ins {
+white-space:nowrap;
+display: block;
+max-width:100%;
+overflow:hidden;
+text-overflow:ellipsis;
+font-size:12px;
+}
+
+.input-file:after {
+content:"";
+display:block; clear:both;
+}
+
+.input-file input {
+width:0.1px;
+height:0.1px;
+opacity:0;
+overflow:hidden;
+position:absolute;
+top:-100px;
+z-index:-1;
+}
+
+
+  </style>
+<meta charset="UTF-8">
+<title>jQuery Query Builder</title>
+<link rel="stylesheet" href="/static/css/home.css">
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src='https://cdn.jsdelivr.net/jquery.query-builder/2.3.3/js/query-builder.standalone.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link href="https://querybuilder.js.org/assets/css/style.css" rel="stylesheet" />
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder/dist/css/query-builder.default.min.css" rel="stylesheet" />
+
+
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src='https://cdn.jsdelivr.net/jquery.query-builder/2.3.3/js/query-builder.standalone.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js'></script>
+<script  "text/javascript"  src="static/js/segment.js"></script>
+<script>
+  var json_filters = {{json_filters|tojson}}
+  console.log(json_filters)
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Filter</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{name}}</h4>
+    </div>
+    <form  enctype="multipart/form-data"  method="post" >
+      <div class = "container2">
+
+
+      <div id="test">
+
+          {% for i in range(length) %}
+            <div class="left" >
+              {% if i==0 %}
+              <h3  style="margin-top: 10px;margin-bottom: 15px; margin-left: 100px;text-decoration:underline;">Columns in Your Table</h3>
+              {% endif %}
+            <label for={{i}} style="font-size: 15px;margin-left: 100px;">{{cols[i]}} </label>
+            </div>
+            <div class="right" >
+              {% if i==0 %}
+              <h3  style="margin-top: 10px;margin-bottom: 15px;text-decoration:underline;">Possible values</h3>
+              {% endif %}
+            <select name = {{cols[i]}} id = {{i}} style="font-size: 15px; margin: 0px;">
+              {% for i in allPossibleV[cols[i]] %}
+                <option value="{{i}}"  >{{i}}</option>
+              {% endfor %}
+            </select>
+
+            </div>
+            <br>
+          {% endfor %}
+</div>
+
+      <div class = "col-md-12 p-3"  style = "padding-left: 100px;" id="builder"></div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <button type = "button" class="btn btn-success" id="btn-get">Save Query</button>
+        <button class="btn btn-warning" id="btn-reset">Reset</button>
+        <br>
+        <br>
+        <br>
+<!-- <div class="col-md-3"> <button type="submit"  class="btn btn-primary btn-lg btn-block"> Display Results </button></div> -->
+        </div>
+        <br>
+
+      </form>
+
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

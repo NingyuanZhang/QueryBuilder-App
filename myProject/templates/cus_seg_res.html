@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{  super()  }}
+    <link rel="stylesheet" href="/static/css/home.css">
+		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <script src="/static/css/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-breadcrumb" class="Guide">
+      <h2 style="margin-left:60px; margin-bottom: 15px;">Custom Segmentation</h2>
+      <h4 style="margin-left:60px; ">Current working file: {{filename}}</h4>
+      <h4 style="margin-left:60px; font-family: Lato;">
+        The segmentation is based on the following features:
+        {% for i in attributes %}
+        <span style="color: #855b2e; font-weight: 600; margin-left: 2px;margin-right: 2px;">{{i}}, </span>
+        {% endfor %}
+        <br>
+          Number of segments : <span style="color: #855b2e; font-weight: 600;">{{k}}</span>
+      </h4>
+    </div>
+      <div id="plot" style="width: 1000px;height:400px;padding:0px 0px 10px 200px;"></div>
+      <script type="text/javascript">
+          var myChart1 = echarts.init(document.getElementById('plot'));
+          var option = {
+              title: {
+                  text: 'Clustering Result'
+              },
+              tooltip: {},
+              legend: {
+                  data:['Population']
+              },
+              xAxis: {
+                  type: 'category',
+                  nameLocation: 'center',
+                  nameGap: 40,
+                  name: 'Cluster Index',
+                  data: [{% for c in clusters %}'{{ c }}', {% endfor %}],
+                  splitArea: {
+                        show: false
+                    },
+                  nameTextStyle: {
+                        fontWeight: 'bolder'
+                    }
+              },
+              yAxis: {
+                type: 'value',
+                name: 'Population',
+                nameLocation: 'center',
+                nameGap: 42,
+                splitArea: {
+                      show: false
+                  },
+                nameTextStyle: {
+                      fontWeight: 'bolder'
+                  }
+              },
+              series: [{
+                  name: 'Population',
+                  type: 'bar',
+                  data: {{values}}
+              }]
+          };
+          myChart1.setOption(option);
+      </script>
+
+
+      <div class="" style="margin-left:200px; font-family: Lato; margin-top: 50px;">
+        <h3 style="font-weight:bolder;font-size:23px;">Information about segments' centroids:</h3>
+        <h4 style="font-weight:normal;">(A centroid is the average of data points belonging to a specific segment) </h4>
+      </div>
+      <div id="table" style="margin-top: 30px;">
+        {% for table in T %}
+            <h5 style="text-align:center; margin-left: 350px;">{{ table|safe }}</h5>
+        {% endfor %}
+      </div>
+      <div class="" style="margin-left:200px; font-family: Lato; margin-top: 50px;">
+      <h3 style="font-weight:bolder;font-size:23px;">Segment centroids heatmap:</h3>
+      </div>
+      <div id="heatmap" style="width: 80%;height:500px;margin-left:100px;"></div>
+      <script type="text/javascript">
+      var dom = document.getElementById("heatmap");
+      var myChart2 = echarts.init(dom);
+      var app = {};
+      option = null;
+
+      var data = {{data}}
+
+
+      option = {
+      tooltip: {
+       position: 'top'
+      },
+      animation: false,
+
+      xAxis: {
+       type: 'category',
+       data: [{% for c in clusters %}'{{ c }}', {% endfor %}],
+       splitArea: {
+           show: true
+       }
+      },
+      yAxis: {
+       type: 'category',
+       data: [{% for l in index %}'{{ l }}', {% endfor %}],
+       splitArea: {
+           show: true
+       },
+       axisLabel: {
+          textStyle: {
+          fontSize:'10'
+        },
+        formatter: function(value) {
+          if (value.length > 13) {
+            return value.substring(0, 14) + "...";
+          } else {
+            return value;
+          }
+        }
+      }
+     },
+
+      visualMap: {
+       min: -0.1,
+       max: {{maxValue}},
+       calculable: true,
+       orient: 'horizontal',
+       left: 'center'
+      },
+      series: [{
+       name: 'Value',
+       type: 'heatmap',
+       data: data,
+       label: {
+           show: true
+       },
+      }]
+      };
+      if (option && typeof option === "object") {
+      myChart2.setOption(option, true);
+      }
+      </script>
+
+      <div class="parent" style="font-family:Lato;">
+        <form name="Form" method="POST" style="margin-left: 200px;" >
+          <br>
+          <button type="submit" onclick="back1();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+          background: #b3b3b3;color: white; margin-left: 100px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+          Go Back
+          </button>
+          <button type="submit" onclick="back2();" name="submit" value="success" class="btn btn-default"  style="border: none; margin-top:10px;
+          background: #b3b3b3;color: white; margin-left: 30px;" onmouseover="this.style.backgroundColor='#D29948';" onmouseout="this.style.backgroundColor='#b3b3b3';">
+          Switch Segmentation Option
+          </button>
+          <button type="submit" onclick="save1();" class="btn btn-default" style="border: none; margin-top:10px;
+          background: #b3b3b3;color: white; margin-left: 30px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+          Save Centroids Information
+          </button>
+          <button type="submit" onclick="save2();" class="btn btn-default" style="border: none; margin-top:10px;
+          background: #b3b3b3;color: white; margin-left: 30px;" onmouseover="this.style.backgroundColor='#D29948';"onmouseout="this.style.backgroundColor='#b3b3b3';">
+          Save Segment Result
+          </button>
+        </form>
+      </div>
+
+
+{% endblock %}
+
+{% block footer %}
+<script>
+    function back1(){
+        document.Form.action='/seg/cus_seg';
+        document.Form.submit();
+    }
+    function back2(){
+        document.Form.action='/seg';
+        document.Form.submit();
+    }
+    function save1(){
+
+      document.Form.action='/downloadCus1';
+      document.Form.submit();
+    }
+    function save2(){
+
+      document.Form.action='/downloadCus2';
+      document.Form.submit();
+    }
+
+</script>
+
+
+
+{% endblock %}
